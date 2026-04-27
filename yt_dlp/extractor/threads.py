@@ -50,6 +50,15 @@ class ThreadsIE(InfoExtractor):
         'params': {
             'skip_download': True,
         },
+    }, {
+        'url': 'https://www.threads.com/@bearded_optimist/post/DXk7atTiJAi/',
+        'info_dict': {
+            'id': r're:\d+|DXk7atTiJAi',
+            'title': str,
+        },
+        'params': {
+            'skip_download': True,
+        },
     }]
 
     def _parse_threads_url(self, value, video_id):
@@ -171,7 +180,7 @@ class ThreadsIE(InfoExtractor):
         for mobj in re.finditer(r'"(?:video_url|playable_url)"\s*:\s*"([^"]+)"', webpage):
             if video_url := self._parse_threads_url(mobj.group(1), video_id):
                 formats.append({'url': video_url})
-        for mobj in re.finditer(r'"(https:\\/\\/[^"]+\\.mp4[^"]*)"', webpage):
+        for mobj in re.finditer(r'"(https?:[^"]+\.mp4[^"]*)"', webpage):
             if video_url := self._parse_threads_url(mobj.group(1), video_id):
                 formats.append({'url': video_url})
         return formats
